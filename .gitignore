@@ -1,2 +1,3 @@
 # [ gitignore driver ]
+./data
 ./.ideas
