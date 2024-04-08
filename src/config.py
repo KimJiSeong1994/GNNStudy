@@ -1,0 +1,2 @@
+class config :
+    DATAPATH = './data/'

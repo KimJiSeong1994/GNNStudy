@@ -1,1 +1,1 @@
-# GNNStudy
+## Grap Neural Networks Study
