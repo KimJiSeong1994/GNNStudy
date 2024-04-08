@@ -1,1 +1,1 @@
-## Grap Neural Networks Study
+## Graph Neural Networks Study
