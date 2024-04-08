@@ -63,7 +63,8 @@ class MLP(torch.nn.Module):
                 )
 
                 print(
-                    f'Epoch {epoch:>3} | Train Loss: {loss:.3f} | Train Acc: {acc*100:>5.2f}% | Val Loss: {val_loss:.2f} | Val Acc: {val_acc*100:.2f}%'
+                    f'Epoch {epoch:>3} | Train Loss: {loss:.3f} | Train Acc: {acc*100:>5.2f}%'
+                    f'| Val Loss: {val_loss:.2f} | Val Acc: {val_acc*100:.2f}%'
                 )
 
     def test(self, data, A):

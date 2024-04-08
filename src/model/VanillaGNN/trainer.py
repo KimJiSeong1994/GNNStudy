@@ -27,9 +27,9 @@ if __name__ == '__main__' :
     )
 
     model.fit(
-        data,
-        Ahat,
-        arg.EPOCHS
+        data = data,
+        A = Ahat,
+        epochs = arg.EPOCHS
     )
 
     test_acc = model.test(data, Ahat)
