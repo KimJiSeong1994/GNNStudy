@@ -1,9 +1,5 @@
 if __name__ == '__main__' :
     import pandas as pd
-
-    import torch
-    from torch_geometric.utils import to_dense_adj
-
     from src.model.GCN import GetData
     from src.model.GCN.args import arg
     from src.model.GCN.model import GCN
