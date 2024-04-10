@@ -1,8 +1,8 @@
 if __name__ == '__main__' :
     import pandas as pd
-    from src.model.GCN import GetData
-    from src.model.GCN.args import arg
-    from src.model.GCN.model import GCN
+    from src.model.GCN.NodeClassification import GetData
+    from src.model.GCN.NodeClassification.args import arg
+    from src.model.GCN.NodeClassification.model import GCN
 
     loader = GetData.get()
     data, dataset = loader['data'], loader['dataset']
@@ -26,4 +26,4 @@ if __name__ == '__main__' :
     )
 
     test_acc = model.test(data)
-    print(f'VanillaGNN test accuracy: {test_acc*100:.2f} %')
+    print(f'GCN test accuracy: {test_acc*100:.2f} %')

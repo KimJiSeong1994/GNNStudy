@@ -2,8 +2,8 @@ import torch
 import torch.nn.functional as F
 import torch_geometric.nn as gnn
 
-from src.model.VanillaGNN.args import arg
-from src.model.VanillaGNN.metrix import metric
+from src.model.GCN.NodeClassification.args import arg
+from src.model.GCN.NodeClassification.metrix import metric
 
 class GCN(torch.nn.Module):
     def __init__(self, dim_in, dim_h, dim_out):
