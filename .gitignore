@@ -1,6 +1,6 @@
 # [ gitignore driver ]
-./data
-./.ideas
+./data/
 ./.idea/
+*.pt # --ignore example file
 
 
