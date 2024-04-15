@@ -3,7 +3,7 @@ if __name__ == '__main__' :
     import torch
     from src.model.GraphSAGE_PPI import GetData
     from src.model.GraphSAGE_PPI.args import arg
-    from src.model.GraphSAGE_PPI.model import GraphSAGE
+    from torch_geometric.nn import GraphSAGE
 
     from torch_geometric.data import Batch
     from torch_geometric.loader import DataLoader
@@ -27,9 +27,10 @@ if __name__ == '__main__' :
     test_loader = DataLoader(dataloder['test'], batch_size = 2)
 
     model = GraphSAGE(
-        dataloder['train'].num_features,
-        arg.HIDDEN_SIZE,
-        dataloder['train'].num_classes
+        in_channels = train_data.num_features,
+        hidden_channels = arg.HIDDEN_SIZE,
+        num_layers = 2,
+        out_channels = dataloder['train'].num_classes
     ).to(device)
 
     criterion = torch.nn.BCEWithLogitsLoss()
