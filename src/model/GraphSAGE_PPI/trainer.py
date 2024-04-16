@@ -1,4 +1,3 @@
-
 if __name__ == '__main__' :
     import torch
     from src.model.GraphSAGE_PPI import GetData
@@ -28,7 +27,7 @@ if __name__ == '__main__' :
 
     model = GraphSAGE(
         in_channels = train_data.num_features,
-        hidden_channels = arg.HIDDEN_SIZE,
+        hidden_channels = arg.HIDDEN_SIZE * 2,
         num_layers = 2,
         out_channels = dataloder['train'].num_classes
     ).to(device)
