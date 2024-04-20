@@ -15,9 +15,6 @@ if __name__ == '__main__' :
     val_dataset = dataset[int(len(dataset) * 0.8): int(len(dataset) * 0.9)]
     test_dataset = dataset[int(len(dataset) * 0.9):]
 
-    for data in train_dataset :
-        print(data)
-
     train_loader = DataLoader(train_dataset, batch_size = 64, shuffle = True)
     val_loader = DataLoader(val_dataset, batch_size = 64, shuffle = True)
     test_loader = DataLoader(test_dataset, batch_size = 64, shuffle = True)
