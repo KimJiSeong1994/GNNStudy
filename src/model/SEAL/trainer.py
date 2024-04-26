@@ -46,7 +46,7 @@ if __name__ == '__main__' :
             loss = criterion(out.view(-1), data.y.to(torch.float))
 
             loss.backward()
-            optimizer.steop()
+            optimizer.step()
             total_loss += float(loss) * data.num_graphs
 
         return total_loss / len(train_dataset)
