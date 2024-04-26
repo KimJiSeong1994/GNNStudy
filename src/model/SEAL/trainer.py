@@ -43,7 +43,7 @@ if __name__ == '__main__' :
             optimizer.zero_grad()
 
             out = model(data.x, data.edge_index, data.batch)
-            loss = criterion(out.view(-1), data.y.to(torch.float))
+            loss = criterion(out.view(-1), torch.tensor(data.y, dtype = torch.float).view(-1))
 
             loss.backward()
             optimizer.step()
@@ -60,7 +60,7 @@ if __name__ == '__main__' :
             data = data.to(device)
             out = model(data.x, data.edge_index, data.batch)
             y_pred.append(out.view(-1).cpu())
-            y_true.append(data.y.view(-1).cpu()).to(torch.float)
+            y_true.append(data.y.view(-1).cpu().to(torch.float))
 
         auc = roc_auc_score(torch.cat(y_true), torch.cat(y_pred))
         ap = average_precision_score(torch.cat(y_true), torch.cat(y_pred))
