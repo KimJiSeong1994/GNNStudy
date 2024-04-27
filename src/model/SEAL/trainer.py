@@ -14,15 +14,15 @@ if __name__ == '__main__' :
     train_data, val_data, test_data = loader['train'], loader['val'], loader['test']
 
     train_pos_data_list = SEAL(train_data, train_data.pos_edge_label_index, 1)['out']
-    train_neg_data_list = SEAL(train_data, train_data.pos_edge_label_index, 0)['out']
+    train_neg_data_list = SEAL(train_data, train_data.neg_edge_label_index, 0)['out']
     train_dataset = train_pos_data_list + train_neg_data_list
 
     val_pos_data_list = SEAL(val_data, val_data.pos_edge_label_index, 1)['out']
-    val_neg_data_list = SEAL(val_data, val_data.pos_edge_label_index, 0)['out']
+    val_neg_data_list = SEAL(val_data, val_data.neg_edge_label_index, 0)['out']
     val_dataset = val_pos_data_list + val_neg_data_list
 
     test_pos_data_list = SEAL(test_data, test_data.pos_edge_label_index, 1)['out']
-    test_neg_data_list = SEAL(test_data, test_data.pos_edge_label_index, 0)['out']
+    test_neg_data_list = SEAL(test_data, test_data.neg_edge_label_index, 0)['out']
     test_dataset = test_pos_data_list + test_neg_data_list
 
     train_loader = DataLoader(train_dataset, batch_size = args.BATCH_SIZE, shuffle = True)
@@ -43,7 +43,7 @@ if __name__ == '__main__' :
             optimizer.zero_grad()
 
             out = model(data.x, data.edge_index, data.batch)
-            loss = criterion(out.view(-1), torch.tensor(data.y, dtype = torch.float).view(-1))
+            loss = criterion(out.view(-1), data.y.to(torch.float))
 
             loss.backward()
             optimizer.step()
@@ -70,3 +70,6 @@ if __name__ == '__main__' :
         loss = train()
         val_auc, val_ap = test(val_loader)
         print(f'EPOCH {epoch:>2} | Loss: {loss:.4f} | Val AUC: {val_auc:.4f} | Val AP: {val_ap:.4f}')
+
+    test_auc, test_ap = test(test_loader)
+    print(f'Test AUC: {test_auc:.4f} | Test AP: {test_ap:.4f}')
