@@ -1,5 +1,5 @@
 class arg :
-    EPOCH = 1000
+    EPOCH = 500
 
     OUT_SIZE = 4
     NUM_LAYER = 1
