@@ -4,9 +4,8 @@ class get :
 
         import torch
         from torch_geometric.datasets import DBLP
-        from torch_geometric.data import  HeteroData
 
-        dataset = DBLP(config.DATAPATH)
+        dataset = DBLP(config.DATAPATH, force_reload = True) # Add force_reload -> HetG dataset
         self._get = {'dataset': dataset, 'data': dataset[0]}
 
     def __getitem__(self, item):
