@@ -42,5 +42,5 @@ if __name__ == '__main__' :
         mse = torch.mean((y_pred - snapshot.y) ** 2)
         loss += mse
 
-    loss = loss / {i+1}
+    loss = loss/(i+1)
     print(f'MSE = {loss.item():.4f}')
