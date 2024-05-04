@@ -11,11 +11,11 @@ if __name__ == '__main__' :
         dim_in = dataset[0].x.shape[1]
     )
 
-    optimizer = torch.optim.Adam(model.parameters(), lr = .01)
+    optimizer = torch.optim.Adam(model.parameters(), lr=.01)
 
     model.train()
     for epoch in range(50) :
-        for i, snapshot in enumerate(train_set) :
+        for i, snapshot in enumerate(train_set) : # snapshot : Temporal sequence dim
             y_pred = model(
                 snapshot.x,
                 snapshot.edge_index,
