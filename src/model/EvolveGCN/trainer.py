@@ -43,4 +43,4 @@ if __name__ == '__main__' :
         loss += mse
 
     loss = loss/(i+1)
-    print(f'MSE = {loss.item():.4f}')
+    print(f'MSE : {loss.item():.4f}')
