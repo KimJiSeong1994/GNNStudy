@@ -89,5 +89,4 @@ if __name__ == '__main__' :
 
     explanation = explainer(data.x, data.edge_index)
     explanation.visualize_graph('./figure/twitter_graphs.png')
-    explanation.visualize_feature_importance('./figure/twitter_feature_importance.png', top_k=10)
-
+    explanation.visualize_feature_importance('./figure/twitter_feature_importance.png', top_k = 10)
