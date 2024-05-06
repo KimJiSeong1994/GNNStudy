@@ -86,3 +86,4 @@ if __name__ == '__main__' :
     data = dataset[-1]
     explanation = explainer(data.x, data.edge_index)
     explanation.visualize_feature_importance('./figure/feature_importance.png', top_k = 10)
+    explanation.visualize_graph('./figure/visualize_subgraphs.png')
