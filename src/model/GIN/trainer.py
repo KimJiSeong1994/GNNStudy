@@ -1,7 +1,8 @@
 if __name__ == '__main__' :
     import torch
-    import torch.nn as nn
+    from torch import nn
     from torch_geometric.loader import DataLoader
+    from torch_geometric.explain import Explainer, GNNExplainer
 
     from src.model.GIN import GetData
     from src.model.GIN.model import GIN
@@ -28,7 +29,7 @@ if __name__ == '__main__' :
             total_loss = 0
             acc = 0
 
-            for data in loader :
+            for data in train_loader :
                 optimizer.zero_grad()
                 out = model(data.x, data.edge_index, data.batch)
 
@@ -39,10 +40,10 @@ if __name__ == '__main__' :
                 loss.backward()
                 optimizer.step()
 
-                val_loss, val_acc = test(model, val_loader)
-                if (epoch % 20 == 0):
-                    print(f'Epoch {epoch:>3} | Train loss: {total_loss:.2f} | Train Acc: {acc * 100:>5.2f}%'
-                          f'Val Loss: {val_loss:.2f} | Val Acc: {val_acc * 100:.2f}%')
+            val_loss, val_acc = test(model, val_loader)
+            if (epoch % 20 == 0):
+                print(f'Epoch {epoch:>3} | Train loss: {total_loss:.2f} | Train Acc: {acc * 100:>5.2f}%'
+                      f'Val Loss: {val_loss:.2f} | Val Acc: {val_acc * 100:.2f}%')
 
         return model
 
@@ -61,13 +62,27 @@ if __name__ == '__main__' :
         return loss, acc
 
     NUM_CLASS = dataset.num_classes
-    model = GIN(dim_h = 32, node_feature = dataset.num_features, num_classes = NUM_CLASS)
+    model = GIN(
+        dim_h = 32,
+        node_feature = dataset.num_features,
+        num_classes = NUM_CLASS
+    )
+
     model = train(model, train_loader)
 
+    explainer = Explainer(
+        model = model,
+        algorithm = GNNExplainer(epochs = 200),
+        explanation_type = 'model',
+        node_mask_type = 'attributes',
+        edge_mask_type = 'object',
+        model_config = dict(
+            mode = 'multiclass_classification',
+            task_level = 'node',
+            return_type = 'log_probs',
+        ),
+    )
 
-
-
-
-
-
-
+    data = dataset[-1]
+    explanation = explainer(data.x, data.edge_index)
+    explanation.visualize_feature_importance('./figure/feature_importance.png', top_k = 10)

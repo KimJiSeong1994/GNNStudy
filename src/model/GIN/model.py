@@ -40,7 +40,7 @@ class GIN(nn.Module) :
         self.lin1 = nn.Linear(dim_h * 3, dim_h * 3)
         self.lin2 = nn.Linear(dim_h * 3, num_classes)
 
-    def forward(self, x, edge_index, batch) :
+    def forward(self, x, edge_index, batch = None) :
         h1 = self.conv1(x, edge_index)
         h2 = self.conv2(h1, edge_index)
         h3 = self.conv3(h2, edge_index)
