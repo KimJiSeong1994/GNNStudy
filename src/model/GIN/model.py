@@ -5,11 +5,11 @@ import torch_geometric.nn as gnn
 torch.manual_seed(42)
 
 class GIN(nn.Module) :
-    def __init__(self, dim_h, num_classes) :
+    def __init__(self, dim_h, node_feature, num_classes) :
         super(GIN, self).__init__()
         self.conv1 = gnn.GINConv(
             nn.Sequential(
-                nn.Linear(dim_h, dim_h),
+                nn.Linear(node_feature, dim_h),
                 nn.BatchNorm1d(dim_h),
                 nn.ReLU(),
                 nn.Linear(dim_h, dim_h),
@@ -42,8 +42,8 @@ class GIN(nn.Module) :
 
     def forward(self, x, edge_index, batch) :
         h1 = self.conv1(x, edge_index)
-        h2 = self.conv1(h1, edge_index)
-        h3 = self.conv1(h2, edge_index)
+        h2 = self.conv2(h1, edge_index)
+        h3 = self.conv3(h2, edge_index)
 
         h1 = gnn.global_add_pool(h1, batch)
         h2 = gnn.global_add_pool(h2, batch)

@@ -27,10 +27,8 @@ if __name__ == '__main__' :
         for epoch in range(arg.EPOCHS + 1):
             total_loss = 0
             acc = 0
-            val_loss = 0
-            val_acc = 0
 
-            for data in loader:
+            for data in loader :
                 optimizer.zero_grad()
                 out = model(data.x, data.edge_index, data.batch)
 
@@ -43,8 +41,8 @@ if __name__ == '__main__' :
 
                 val_loss, val_acc = test(model, val_loader)
                 if (epoch % 20 == 0):
-                    print(f'Epoch {epoch:>3} | Train loss: {total_loss:.2f} | Train Acc: {acc * 100:5.2f}%'
-                          f'Val Loss: {val_loss:2.f} | Val Acc: {val_acc * 100:.2f}%')
+                    print(f'Epoch {epoch:>3} | Train loss: {total_loss:.2f} | Train Acc: {acc * 100:>5.2f}%'
+                          f'Val Loss: {val_loss:.2f} | Val Acc: {val_acc * 100:.2f}%')
 
         return model
 
@@ -62,8 +60,8 @@ if __name__ == '__main__' :
 
         return loss, acc
 
-    NUM_CLASS = len(set(train_loader.dataset.y.detach().numpy()))
-    model = GIN(dim_h = 32, num_classes = NUM_CLASS)
+    NUM_CLASS = dataset.num_classes
+    model = GIN(dim_h = 32, node_feature = dataset.num_features, num_classes = NUM_CLASS)
     model = train(model, train_loader)
 
 
