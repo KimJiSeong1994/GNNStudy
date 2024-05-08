@@ -16,4 +16,3 @@ class get :
 
         speed = pd.read_csv(f'{PATH}/PeMSD7_V_1026.csv')
         distances = pd.read_csv(f'{PATH}/PeMSD7_W_1026.csv')
-
