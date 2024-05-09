@@ -14,5 +14,9 @@ class get :
                 with ZipFile(BytesIO(zurl.read())) as zfile :
                     zfile.extractall(config.DATAPATH)
 
-        speed = pd.read_csv(f'{PATH}/PeMSD7_V_1026.csv')
-        distances = pd.read_csv(f'{PATH}/PeMSD7_W_1026.csv')
+        speed = pd.read_csv(f'{PATH}/PeMSD7_V_228.csv', header = None)
+        distances = pd.read_csv(f'{PATH}/PeMSD7_W_228.csv', header = None)
+        self._get = {'speed' : speed, 'dist' : distances}
+
+    def __getitem__(self, item) :
+        return self._get[item]
