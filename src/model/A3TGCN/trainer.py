@@ -49,3 +49,34 @@ if __name__ == '__main__' :
         optimizer.zero_grad()
         if epoch % 5 == 0 :
             print(f'Epoch {epoch + 1:>2} | Train MSE: {loss:.4f}')
+
+        y_test = []
+        for snapshot in test_dataset :
+            y_hat = snapshot.y.numpy()
+            y_hat = utils.inverse_zscore(y_hat, speed.mean(axis = 0), speed.std(axis = 0))
+            y_test = np.append(y_test, y_hat)
+
+        model.eval()
+        gnn_pred = []
+        for snapshot in test_dataset :
+            y_hat = model(snapshot.x.unsqueeze(2), snapshot.edge_index, snapshot.edge_weight).squeeze().detach().numpy()
+            y_hat = utils.inverse_zscore(y_hat, speed.mean(axis = 0), speed.std(axis = 0))
+            gnn_pred = np.append(gnn_pred, y_hat)
+
+        rw_pred = []
+        for snapshot in test_dataset :
+            y_hat = snapshot.x[:, -1].squeeze().detach().numpy()
+            y_hat = utils.inverse_zscore(y_hat, speed.mean(axis=0), speed.std(axis=0))
+            rw_pred = np.append(rw_pred, y_hat)
+
+        ha_pred = []
+        for i in range(lags, speed_norm.shape[0] - horizon) :
+            y_hat = speed_norm.to_numpy()[i - lags:i].T.mean(axis = 1)
+            y_hat = utils.inverse_zscore(y_hat, speed.mean(axis = 0), speed.std(axis = 0))
+            ha_pred.append(y_hat)
+
+        ha_pred = np.array(ha_pred).flatten()[-len(y_test)]
+
+        print(f'GNN MAE = {utils.MAE(gnn_pred, y_test):.4f}')
+        print(f'GNN RMSE = {utils.RMSE(gnn_pred, y_test):.4f}')
+        print(f'GNN MAPE = {utils.MAPE(gnn_pred, y_test):.4f}')

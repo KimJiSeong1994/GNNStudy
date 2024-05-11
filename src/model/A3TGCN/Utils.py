@@ -11,3 +11,23 @@ class utils :
     @staticmethod
     def zscore(x, mean, std) :
         return (x - mean) / std
+
+    @staticmethod
+    def inverse_zscore(x, mean, std) :
+        return x * std + mean
+
+    @staticmethod
+    def MAE(real, pred) :
+        import numpy as np
+        return np.mean(np.abs(pred - real))
+
+    @staticmethod
+    def RMSE(real, pred) :
+        import numpy as np
+        return np.sqrt(np.mean(np.abs(pred - real) ** 2))
+
+    @staticmethod
+    def MAPE(real, pred) :
+        import numpy as np
+        return np.mean(np.abs(pred - real) / (real + 1e-5))
+
