@@ -8,6 +8,7 @@ class utils :
         w_mask = np.ones([n, n]) - np.identity(n)
         return np.exp(-d2 / sigma_2) * (np.exp(-d2 / sigma_2) >= epsilon) * w_mask
 
+class metric :
     @staticmethod
     def zscore(x, mean, std) :
         return (x - mean) / std

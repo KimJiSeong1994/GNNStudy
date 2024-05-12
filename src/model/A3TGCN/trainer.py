@@ -4,7 +4,7 @@ if __name__ == '__main__' :
     from torch_geometric_temporal.signal import StaticGraphTemporalSignal, temporal_signal_split
 
     from src.model.A3TGCN.GetData import get
-    from src.model.A3TGCN.Utils import utils
+    from src.model.A3TGCN.Utils import utils, metric
     from src.model.A3TGCN.model import A3TGCN
 
     loader = get()
@@ -77,6 +77,6 @@ if __name__ == '__main__' :
 
         ha_pred = np.array(ha_pred).flatten()[-len(y_test)]
 
-        print(f'GNN MAE = {utils.MAE(gnn_pred, y_test):.4f}')
-        print(f'GNN RMSE = {utils.RMSE(gnn_pred, y_test):.4f}')
-        print(f'GNN MAPE = {utils.MAPE(gnn_pred, y_test):.4f}')
+        print(f'GNN MAE = {metric.MAE(gnn_pred, y_test):.4f}')
+        print(f'GNN RMSE = {metric.RMSE(gnn_pred, y_test):.4f}')
+        print(f'GNN MAPE = {metric.MAPE(gnn_pred, y_test):.4f}')
