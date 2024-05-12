@@ -1,5 +1,5 @@
 class get :
-    def __init__(self, tidy = True) :
+    def __init__(self) :
         import os
         import pandas as pd
         from io import BytesIO
@@ -14,13 +14,8 @@ class get :
                 with ZipFile(BytesIO(zurl.read())) as zfile :
                     zfile.extractall(config.DATAPATH)
 
-        self.df = pd.read_parquet(os.path.join(PATH, os.listdir(PATH)[1]))
-        if tidy == True : self.df = self._preprocess()
-        self._get = {'data' : self.df}
+        df = pd.read_csv(os.path.join(PATH, os.listdir(PATH)[0]))
+        self._get = {'data' : df}
 
     def __getitem__(self, item) :
         return self._get[item]
-
-    def _preprocess(self) :
-        self.df['attack_type'] = self.df['attack_type'].replace('---', 'benign')
-
