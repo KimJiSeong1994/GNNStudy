@@ -1,7 +1,7 @@
 # [ gitignore driver ]
-./figure
-./data
-./.idea/
+figure/
+data/
+.idea/
 *.pt # --ignore example file
 *.parquet
 *.csv
