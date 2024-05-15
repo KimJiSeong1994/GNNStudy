@@ -1,14 +1,19 @@
 if __name__ == '__main__' :
+    import torch
     import numpy as np
     import pandas as pd
-    from sklearn.preprocessing import PowerTransformer
+    from sklearn.metrics import f1_score
     from sklearn.model_selection import train_test_split
-    from sklearn.metrics import f1_score, classification_report, confusion_matrix
 
+    from src.model.anomaly_detection_HetG.args import arg
     from src.model.anomaly_detection_HetG.GetData import get
+    from src.model.anomaly_detection_HetG.GetTrain import GetTrain
+    from src.model.anomaly_detection_HetG.model import HeteroGNN
 
     loader = get()
     df = loader['data']
+    df = df.drop(columns=['Src Pt', 'Dst Pt', 'Flows', 'Tos', 'class', 'attackID', 'attackDescription'])
+    df['attackType'] = df['attackType'].replace('---', 'benign')
     df['Date first seen'] = pd.to_datetime(df['Date first seen'])
 
     df['weekday'] = df['Date first seen'].dt.weekday
@@ -28,7 +33,7 @@ if __name__ == '__main__' :
 
     one_hot_flags = lambda input : [1 if char1 == char2 else 0 for char1, char2 in zip('APRSF', input[1:])]
     ohv = list(map(one_hot_flags, df['Flags'].to_numpy()))
-    df[['ACK', 'PSH', 'RST', 'SYN',' FIN']] = pd.DataFrame(ohv, columns = ['ACK', 'PSH', 'RST', 'SYN',' FIN'])
+    df[['ACK', 'PSH', 'RST', 'SYN', 'FIN']] = pd.DataFrame(ohv, columns = ['ACK', 'PSH', 'RST', 'SYN',' FIN'])
 
     temp = pd.DataFrame()
     temp['SrcIP'] = df['Src IP Addr'].astype(str)
@@ -50,5 +55,57 @@ if __name__ == '__main__' :
 
     df = pd.get_dummies(df, prefix='', prefix_sep='', columns=['Proto', 'attackType'])
     labels = ['benign', 'bruteForce', 'dos', 'pingScan', 'portScan']
+
     df_train, df_test = train_test_split(df, random_state=0, test_size=0.2, stratify=df[labels])
     df_val, df_test = train_test_split(df_test, random_state=0, test_size=0.5, stratify=df_test[labels])
+
+    loader = GetTrain()
+    train_loader = loader.get_loader(df_train)
+    val_loader = loader.get_loader(df_val)
+    test_loadr = loader.get_loader(df_test)
+
+    device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
+    model = HeteroGNN(dim_h = 64, dim_out = 5, num_layers = 3).to(device)
+    optimizer = torch.optim.Adam(model.parameters(), lr = 1e-3)
+
+    @torch.no_grad()
+    def test(loader) :
+        model.eval()
+        y_pred, y_true = [], []
+        n_subgraphs, total_loss = 0, 0
+
+        for batch in loader  :
+            batch.to(device)
+            out = model(batch.x_dict, batch.edge_index_dict)
+            loss = torch.nn.functional.cross_entropy(out, batch['flow'].y.float())
+
+            y_pred.append(out.argmax(dim = 1))
+            y_true.appedn(batch['flow'].y.argmax(dim = 1))
+
+            n_subgraphs += arg.BATCH
+            total_loss += float(loss) * arg.BATCH_SIZE
+
+        y_pred = torch.cat(y_pred).cpu()
+        y_true = torch.cat(y_true).cpu()
+        f1score = f1_score(y_true, y_pred, average = 'macro')
+        return (total_loss / n_subgraphs), f1score, y_pred, y_true
+
+    model.train()
+    for epoch in range(101) :
+        n_subgraphs, total_loss = 0, 0
+
+        for batch in train_loader :
+            optimizer.zero_grad()
+            batch.to(device)
+
+            out = model(batch.x_dict, batch.edge_index_dict)
+            loss = torch.nn.functional.cross_entropy(out, batch['flow'].y.float())
+            loss.backward()
+
+            optimizer.step()
+            n_subgraphs += arg.BATCH_SIZE
+            total_loss += float(loss) * arg.BATCH_SIZE
+
+            if epoch % 10 == 0 :
+                val_loss, f1score, _, _ = test(val_loader)
+                print(f'Epoch : {epoch} | Train Loss : {total_loss/n_subgraphs:.4f} | Val Loss : {val_loss:.4f} | Val F1-score : {f1score * 100:.4f} %')
