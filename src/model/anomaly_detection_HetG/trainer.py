@@ -80,9 +80,9 @@ if __name__ == '__main__' :
             loss = torch.nn.functional.cross_entropy(out, batch['flow'].y.float())
 
             y_pred.append(out.argmax(dim = 1))
-            y_true.appedn(batch['flow'].y.argmax(dim = 1))
+            y_true.append(batch['flow'].y.argmax(dim = 1))
 
-            n_subgraphs += arg.BATCH
+            n_subgraphs += arg.BATCH_SIZE
             total_loss += float(loss) * arg.BATCH_SIZE
 
         y_pred = torch.cat(y_pred).cpu()
@@ -108,4 +108,4 @@ if __name__ == '__main__' :
 
             if epoch % 10 == 0 :
                 val_loss, f1score, _, _ = test(val_loader)
-                print(f'Epoch : {epoch} | Train Loss : {total_loss/n_subgraphs:.4f} | Val Loss : {val_loss:.4f} | Val F1-score : {f1score * 100:.4f} %')
+                print(f'Epoch : {epoch} | Train Loss : {total_loss/n_subgraphs:.4f} | Val Loss : {val_loss:.3f} | Val F1-score : {f1score * 100:.4f} %')
