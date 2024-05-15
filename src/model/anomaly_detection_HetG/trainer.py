@@ -106,6 +106,6 @@ if __name__ == '__main__' :
             n_subgraphs += arg.BATCH_SIZE
             total_loss += float(loss) * arg.BATCH_SIZE
 
-            if epoch % 10 == 0 :
-                val_loss, f1score, _, _ = test(val_loader)
-                print(f'Epoch : {epoch} | Train Loss : {total_loss/n_subgraphs:.4f} | Val Loss : {val_loss:.3f} | Val F1-score : {f1score * 100:.4f} %')
+        if epoch % 10 == 0 :
+            val_loss, f1score, _, _ = test(val_loader)
+            print(f'Epoch : {epoch} | Train Loss : {total_loss/n_subgraphs:.4f} | Val Loss : {val_loss:.3f} | Val F1-score : {f1score * 100:.4f} %')
