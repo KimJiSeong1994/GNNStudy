@@ -3,6 +3,7 @@ if __name__ == '__main__' :
     import numpy as np
     import pandas as pd
     from sklearn.metrics import f1_score
+    from sklearn.metrics import classification_report
     from sklearn.model_selection import train_test_split
 
     from src.model.anomaly_detection_HetG.args import arg
@@ -109,3 +110,7 @@ if __name__ == '__main__' :
         if epoch % 10 == 0 :
             val_loss, f1score, _, _ = test(val_loader)
             print(f'Epoch : {epoch} | Train Loss : {total_loss/n_subgraphs:.4f} | Val Loss : {val_loss:.3f} | Val F1-score : {f1score * 100:.4f} %')
+
+
+    _, _, y_pred, y_true = test(test_loadr)
+    print(classification_report(y_true, y_pred, target_names = labels, digits = 4))
