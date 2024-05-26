@@ -45,4 +45,3 @@ class GetTrain :
         dst = np.column_stack((dst, dst)).flatten()
 
         return torch.Tensor([src, dst]).int(), torch.Tensor([dst, dst]).int()
-

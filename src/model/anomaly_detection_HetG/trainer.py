@@ -111,6 +111,5 @@ if __name__ == '__main__' :
             val_loss, f1score, _, _ = test(val_loader)
             print(f'Epoch : {epoch} | Train Loss : {total_loss/n_subgraphs:.4f} | Val Loss : {val_loss:.3f} | Val F1-score : {f1score * 100:.4f} %')
 
-
     _, _, y_pred, y_true = test(test_loadr)
     print(classification_report(y_true, y_pred, target_names = labels, digits = 4))
