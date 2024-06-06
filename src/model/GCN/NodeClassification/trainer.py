@@ -5,7 +5,7 @@ if __name__ == '__main__' :
     from src.model.GCN.NodeClassification.model import GCN
 
     loader = GetData.get()
-    data, dataset = loader['data'], loader['dataset']
+    data, dataset = loader['data'], loader['data']
 
     data.train_mask = range(18_000)
     data.val_mask = range(18_001, 20_000)

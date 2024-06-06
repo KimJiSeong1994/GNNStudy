@@ -6,7 +6,7 @@ if __name__ == '__main__' :
     from torch_geometric.loader import NeighborLoader
 
     loader = GetData.get()
-    data, dataset = loader['data'], loader['dataset']
+    data, dataset = loader['data'], loader['data']
 
     train_loader = NeighborLoader(
         data,

@@ -26,7 +26,7 @@ class get :
         train_data, val_data, test_data = dataset[0]
 
         self._get = {
-            'dataset' : dataset,
+            'data' : dataset,
             'train' : train_data,
             'val' : val_data,
             'test' : test_data,

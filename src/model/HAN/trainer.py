@@ -9,7 +9,7 @@ if __name__ == '__main__' :
     device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 
     loader = get()
-    dataset, data = loader['dataset'], loader['data']
+    dataset, data = loader['data'], loader['data']
     data['conference'].x = torch.zeros(20, 1)
 
     model = HAN(dim_in = -1, dim_out = 4, metapath = data.metadata())

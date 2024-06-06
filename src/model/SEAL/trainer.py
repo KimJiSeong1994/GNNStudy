@@ -10,7 +10,7 @@ if __name__ == '__main__' :
     from src.model.SEAL.model import DGCNN
 
     loader = get()
-    dataset = loader['dataset']
+    dataset = loader['data']
     train_data, val_data, test_data = loader['train'], loader['val'], loader['test']
 
     train_pos_data_list = SEAL(train_data, train_data.pos_edge_label_index, 1)['out']

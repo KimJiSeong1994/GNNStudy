@@ -4,7 +4,7 @@ if __name__ == '__main__' :
     from src.model.EvolveGCN.model import TemporalGNN
 
     loader = get()
-    dataset, train_set, test_set = loader['dataset'], loader['train'], loader['test']
+    dataset, train_set, test_set = loader['data'], loader['train'], loader['test']
 
     model = TemporalGNN(
         node_count = dataset[0].x.shape[0],

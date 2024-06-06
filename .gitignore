@@ -1,8 +1,8 @@
 # [ gitignore driver ]
 figure/
 data/
+src/KAN/
 .idea/
 *.pt # --ignore example file
 *.parquet
 *.csv
-

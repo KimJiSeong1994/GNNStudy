@@ -4,7 +4,7 @@ if __name__ == '__main__' :
     from src.model.MPNNLSTM.model import MPNNLSTM
 
     loader = get()
-    dataset, train_set, test_set = loader['dataset'], loader['train'], loader['test']
+    dataset, train_set, test_set = loader['data'], loader['train'], loader['test']
 
     model = MPNNLSTM(
         dataset[0].x.shape[1],

@@ -4,7 +4,7 @@ class get :
         from torch_geometric.datasets import Twitch
 
         dataset = Twitch(config.DATAPATH, name = 'EN')
-        self._get = {'dataset': dataset, 'data': dataset[0]}
+        self._get = {'data': dataset, 'data': dataset[0]}
 
     def __getitem__(self, item):
         return self._get[item]

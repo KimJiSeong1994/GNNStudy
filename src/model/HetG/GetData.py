@@ -8,7 +8,7 @@ class get :
         transform = T.AddMetaPaths(metapaths = metapahts, drop_orig_edge_types = True)
         dataset = DBLP(root = config.DATAPATH, transform = transform)
 
-        self._get = {'dataset': dataset, 'data': dataset[0]}
+        self._get = {'data': dataset, 'data': dataset[0]}
 
     def __getitem__(self, item) :
         return self._get[item]

@@ -8,7 +8,7 @@ if __name__ == '__main__' :
     device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 
     dataloder = get()
-    dataset = dataloder['dataset']
+    dataset = dataloder['data']
     train_set, val_set, test_set = dataloder['train'], dataloder['val'], dataloder['test']
 
     model = gnn.VGAE(model.Encoder(dataset.num_features, arg.HIDDEN_SIZE)).to(device)

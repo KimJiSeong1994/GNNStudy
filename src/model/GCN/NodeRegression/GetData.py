@@ -24,7 +24,7 @@ class get :
         print(f'Graph has isolated nodes: {data.has_isolated_nodes()}')
         print(f'Graph bas loops: {data.has_self_loops()}')
 
-        self._get = {'dataset' : dataset, 'data' : data}
+        self._get = {'data' : dataset, 'data' : data}
 
     def __getitem__(self, item) :
         return self._get[item]

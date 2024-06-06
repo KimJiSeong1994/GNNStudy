@@ -4,7 +4,7 @@ if __name__ == '__main__' :
     from src.model.GAT.model import GAT
 
     loader = GetData.get()
-    data, dataset = loader['data'], loader['dataset']
+    data, dataset = loader['data'], loader['data']
 
     model = GAT(
         dim_in = dataset.num_features,

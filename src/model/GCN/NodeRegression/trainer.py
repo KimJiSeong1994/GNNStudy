@@ -10,7 +10,7 @@ if __name__ == '__main__' :
     from src.model.GCN.NodeRegression.model import GCNRegreesion
 
     loader = GetData.get()
-    data, dataset = loader['data'], loader['dataset']
+    data, dataset = loader['data'], loader['data']
     df = pd.read_csv(os.path.join(config.DATAPATH, 'wikipedia/chameleon/musae_chameleon_target.csv'))
     data.y = torch.tensor(np.log10(df['target']))
 

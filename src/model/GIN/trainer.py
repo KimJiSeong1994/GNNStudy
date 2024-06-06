@@ -10,7 +10,7 @@ if __name__ == '__main__' :
     from src.model.GIN.metric import metric
 
     loader = GetData.get()
-    dataset = loader['dataset']
+    dataset = loader['data']
 
     train_dataset = dataset[:int(len(dataset) * 0.8)]
     val_dataset = dataset[int(len(dataset) * 0.8): int(len(dataset) * 0.9)]

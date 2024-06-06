@@ -7,7 +7,7 @@ if __name__ == '__main__' :
     from src.model.HetG.args import arg
 
     loader = get()
-    dataset, data = loader['dataset'], loader['data']
+    dataset, data = loader['data'], loader['data']
 
     model = gnn.GAT(
         in_channels = -1,
